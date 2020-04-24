@@ -47,11 +47,11 @@ dataSource.products = {
       '<img class="active toppings-basil" src="images/pizza/basil.svg">',
     ],
     params: {
-      sauce: {
+      sauce: {   // w index.html będzie to input o name równym sauce.
         label: 'Sauce',
         type: 'radios',
         options: {
-          tomato: {label: 'Tomato', price: 0, default: true},
+          tomato: {label: 'Tomato', price: 0, default: true}, // w index.html będzie to input value równe tomato.
           cream: {label: 'Sour cream', price: 2},
         },
       },
