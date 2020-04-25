@@ -19,7 +19,7 @@ dataSource.products = {
       '<img class="active" src="images/breakfast.svg">',
     ],
     params: {
-      coffee: {
+      coffee: {// w index.html będzie to input o name równym coffee.
         label: 'Coffee type',
         type: 'radios',
         options: {

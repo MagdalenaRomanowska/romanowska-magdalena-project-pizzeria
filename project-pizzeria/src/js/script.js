@@ -100,36 +100,26 @@
     }
 
     initAccordion() {
-      const thisProduct = this;
-      /* START: click event listener to trigger */
-      function clickListener() {
+      const thisProduct = this;      
+      function clickListener() {  /* START: click event listener to trigger */
         thisProduct.accordionTrigger.addEventListener('click', clickHandler);
       }
       function clickHandler(event) {
-        /* prevent default action for event */
         event.preventDefault();
         thisProduct.element.classList.toggle('active'); // active class goes to: ".product active"
-        /* find all products with class active */
         const activeProducts = document.querySelectorAll('.product.active');
-        /* START LOOP: for each active product */
-        for (let activeProduct of activeProducts) {
-          /* START: if the active product isn't the element of thisProduct */
-          if (activeProduct != thisProduct.element) {
+        for (let activeProduct of activeProducts) {        
+          if (activeProduct != thisProduct.element) { /* START: if the active product isn't the element of thisProduct */
             activeProduct.classList.remove('active');
-            /* remove class active for the active product */
           } else {
             activeProduct.classList.add('active');
-            /* END: if the active product isn't the element of thisProduct */
           }
-          /* END LOOP: for each active product */
         }
-        console.log('activeProducts: ', activeProducts);
       }
-      /* END: click event listener to trigger */
       clickListener();
     }
 
-    initOrderForm() {
+    initOrderForm() {   //copy from kodilla
       const thisProduct = this;
       console.log('initOrderForm');
       thisProduct.form.addEventListener('submit', function(event){
@@ -151,10 +141,24 @@
 
     processOrder() {
       const thisProduct = this;
-      console.log('processOrder');
-      const formData = utils.serializeFormToObject(thisProduct.form);
-      console.log('formData: ', formData);
-    }
+      const formData = utils.serializeFormToObject(thisProduct.form); // read all data from the form
+      let price = thisProduct.data.price;  // set variable price to equal thisProduct.data.price          
+        for(let paramId in thisProduct.data.params) {  /* START LOOP: for each paramId in thisProduct.data.params */         
+          const param = thisProduct.data.params[paramId]; /* save the element in thisProduct.data.params with key paramId as const param */           
+            for(let optionId in param.options) { /* START LOOP: for each optionId in param.options */             
+              const option = param.options[optionId]; /* save the element in param.options with key optionId as const option */                
+              const optionSelected = formData.hasOwnProperty(paramId) && formData[paramId].indexOf(optionId) > -1; //W stałej optionSelected sprawdzamy, czy istnieje formData[paramId], a jeśli tak, to czy ta tablica zawiera klucz równy wartości optionId.               
+                if(optionSelected && !option.default){  /* START IF: if option is selected and option is not default */ 
+                  price = price + option.price; /* add price of option to variable price */
+                }                    
+                else if(!optionSelected && option.default) { /* START ELSE IF: if option is not selected and option is default */
+                    price = price - option.price; /* deduct price of option from price */                   
+                }                   
+            }                    
+        }                   
+        console.log('price: ' , price);
+        thisProduct.priceElem = price; /* set the contents of thisProduct.priceElem to be the value of variable price */
+      }
   }
 
   const app = {
