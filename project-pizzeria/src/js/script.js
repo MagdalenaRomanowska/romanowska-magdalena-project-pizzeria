@@ -288,8 +288,8 @@
       thisCart.dom.toggleTrigger = thisCart.dom.wrapper.querySelector(select.cart.toggleTrigger);
       thisCart.dom.productList = thisCart.dom.wrapper.querySelector(select.cart.productList);
       thisCart.dom.form = thisCart.dom.wrapper.querySelector(select.cart.form);
-      thisCart.dom.phone = thisCart.dom.wrapper.querySelector(select.cart.phone);
-      thisCart.dom.address = thisCart.dom.wrapper.querySelector(select.cart.address);
+      //thisCart.dom.phone = thisCart.dom.wrapper.querySelector(select.cart.phone);
+      //thisCart.dom.address = thisCart.dom.wrapper.querySelector(select.cart.address);
       thisCart.renderTotalsKeys = ['totalNumber', 'totalPrice', 'subtotalPrice', 'deliveryFee'];
 
       for(let key of thisCart.renderTotalsKeys){
@@ -330,19 +330,19 @@
       const payload = { //"ładunek" wysyłany do serwera.
         address: 'test',
         totalPrice: thisCart.totalPrice,
-        phone: thisCart.phone,
+        /*phone: thisCart.phone,
         address: thisCart.address,
         totalNumber: thisCart.totalNumber,
         subtotalPrice: thisCart.subtotalPrice,
         totalPrice: thisCart.totalPrice,
         deliveryFee: thisCart.deliveryFee,
-        products: [],
+        products: [],*/
       };
 
-      for(let productForAPI of thisCart.products){
+      /*for(let productForAPI of thisCart.products){
         const resultOfGetData = productForAPI.getData();
         payload.products.push(resultOfGetData);
-      }
+      }*/
 
       const options = {
         method: 'POST', //służy do wysyłania nowych danych do API.
@@ -461,10 +461,11 @@
       });
     }
 
-    getData(){
+    /*getData(){
       const thisCartProduct = this;
+
       thisCartProduct.push(new CartProduct(thisCartProduct.id, thisCartProduct.amount, thisCartProduct.price, thisCartProduct.priceSingle, thisCartProduct.params));
-    }
+    }*/
   }
 
   const app = {
