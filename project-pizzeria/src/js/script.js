@@ -288,8 +288,8 @@
       thisCart.dom.toggleTrigger = thisCart.dom.wrapper.querySelector(select.cart.toggleTrigger);
       thisCart.dom.productList = thisCart.dom.wrapper.querySelector(select.cart.productList);
       thisCart.dom.form = thisCart.dom.wrapper.querySelector(select.cart.form);
-      //thisCart.dom.phone = thisCart.dom.wrapper.querySelector(select.cart.phone);
-      //thisCart.dom.address = thisCart.dom.wrapper.querySelector(select.cart.address);
+      thisCart.dom.phone = thisCart.dom.wrapper.querySelector(select.cart.phone);
+      thisCart.dom.address = thisCart.dom.wrapper.querySelector(select.cart.address);
       thisCart.renderTotalsKeys = ['totalNumber', 'totalPrice', 'subtotalPrice', 'deliveryFee'];
 
       for(let key of thisCart.renderTotalsKeys){
@@ -328,28 +328,27 @@
       const url = settings.db.url + '/' + settings.db.order; //endpoint address.
 
       const payload = { //"ładunek" wysyłany do serwera.
-        address: 'test',
         totalPrice: thisCart.totalPrice,
-        /*phone: thisCart.phone,
-        address: thisCart.address,
+        phone: thisCart.dom.phone,
+        address: thisCart.dom.address,
         totalNumber: thisCart.totalNumber,
         subtotalPrice: thisCart.subtotalPrice,
-        totalPrice: thisCart.totalPrice,
         deliveryFee: thisCart.deliveryFee,
-        products: [],*/
+        products: [],
       };
 
-      /*for(let productForAPI of thisCart.products){
+      for(let productForAPI of thisCart.products){
         const resultOfGetData = productForAPI.getData();
         payload.products.push(resultOfGetData);
-      }*/
+      }
 
-      const options = {
-        method: 'POST', //służy do wysyłania nowych danych do API.
+      const options = { //zawiera opcje, które skonfigurują zapytanie.
+        method: 'POST', //POST służy do wysyłania nowych danych do API.
         headers: {
           'Content-Type': 'application/json',  //ustawiamy nagłówek, by serwer wiedział, że wysyłamy dane w postaci JSONa.
         },
-        body: JSON.stringify(payload),  //konwersja obiektu payload na ciąg znaków w formacie JSON.
+        body: JSON.stringify(payload),  //Ostatni z nagłówków to body, czyli treść którą wysyłamy. 
+        //Używamy tutaj metody JSON.stringify, aby przekonwertować obiekt payload na ciąg znaków w formacie JSON.
       };
 
       fetch(url, options)
@@ -461,11 +460,17 @@
       });
     }
 
-    /*getData(){
+    getData(){
       const thisCartProduct = this;
-
-      thisCartProduct.push(new CartProduct(thisCartProduct.id, thisCartProduct.amount, thisCartProduct.price, thisCartProduct.priceSingle, thisCartProduct.params));
-    }*/
+      const getDataObjects = {
+        getDataObjectsId: thisCartProduct.id, 
+        getDataObjectsAmount: thisCartProduct.amount, 
+        getDataObjectsPrice: thisCartProduct.price, 
+        getDataObjectsPriceSingle: thisCartProduct.priceSingle, 
+        getDataObjectsParams: thisCartProduct.params,
+      };
+      return getDataObjects;
+    }
   }
 
   const app = {
@@ -481,12 +486,12 @@
       thisApp.data = {};
       const url = settings.db.url + '/' + settings.db.product;
 
-      fetch(url)
+      fetch(url)  //Najpierw za pomocą funkcji fetch wysyłamy zapytanie pod podany adres endpointu.
         .then(function(rawResponse){
-          return rawResponse.json();
+          return rawResponse.json(); //Następnie otrzymaną odpowiedź konwertujemy z JSONa na tablicę.
         })
-        .then(function(parsedResponse){
-          console.log('parsedResponse' , parsedResponse);
+        .then(function(parsedResponse){ //Wreszcie, po otrzymaniu skonwertowanej odpowiedzi parsedResponse
+          console.log('parsedResponse' , parsedResponse); //wyświetlamy ją w konsoli.
           /*save parsedResponse as thisApp.data.products */
           thisApp.data.products = parsedResponse;
           /*execute initMenu method */
