@@ -462,14 +462,14 @@
 
     getData(){
       const thisCartProduct = this;
-      const getDataObjects = {
-        getDataObjectsId: thisCartProduct.id, 
-        getDataObjectsAmount: thisCartProduct.amount, 
-        getDataObjectsPrice: thisCartProduct.price, 
-        getDataObjectsPriceSingle: thisCartProduct.priceSingle, 
-        getDataObjectsParams: thisCartProduct.params,
+      const result = {
+        id: thisCartProduct.id, 
+        amount: thisCartProduct.amount, 
+        price: thisCartProduct.price, 
+        priceSingle: thisCartProduct.priceSingle, 
+        params: thisCartProduct.params,
       };
-      return getDataObjects;
+      return result;
     }
   }
 
