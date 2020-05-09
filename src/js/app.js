@@ -1,6 +1,7 @@
 import {settings, select, classNames} from './settings.js'; //importuj obiekt settings z pliku settings.js z tego samego katalogu. Nawiasy {} używamy do importu więcej niż 1 rzeczy i gdy nie jest to rzecz domyślna.
 import Product from './components/Product.js';
 import Cart from './components/Cart.js';
+import Booking from './components/Booking.js';
 // tylko domyślnie exportowana rzecz może być importowana bez nawiasów klamrowych.
 
 const app = {
@@ -82,6 +83,12 @@ const app = {
     }); 
 
   },
+  initBooking: function (){
+    const thisApp = this;
+    thisApp.bookingWidget = document.querySelector(select.containerOf.booking); //znajduje kontener widgetu do rezerwacji stron.
+    thisApp.booking = new Booking(thisApp.bookingWidget); // nowa instancja klasy Booking.
+  },
+
   init: function () {
     const thisApp = this;
     //console.log('*** App starting ***');
@@ -92,6 +99,7 @@ const app = {
     thisApp.initPages();
     thisApp.initData();
     thisApp.initCart();
+    thisApp.initBooking();
   },
     
 };
