@@ -17,7 +17,6 @@ class HourPicker extends BaseWidget{ // HP jest rozszerzeniem klasy BaseWidget.
     rangeSlider.create(thisWidget.dom.input); //uruchomienie pluginu.
     thisWidget.dom.input.addEventListener('input', function(){    
       thisWidget.value = thisWidget.dom.input.value;
-      console.log('thisWidget.dom.input.value:', thisWidget.dom.input.value);
     });
   }
   parseValue(){ 
@@ -31,7 +30,7 @@ class HourPicker extends BaseWidget{ // HP jest rozszerzeniem klasy BaseWidget.
   }
   renderValue(){ //ma zamieniać zawartość elementu thisWidget.dom.output na wartość widgetu.
     const thisWidget = this;
-    thisWidget.dom.output = thisWidget.value;
+    thisWidget.dom.output.innerHTML = thisWidget.value;
   }
 }
 
