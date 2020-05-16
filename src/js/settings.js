@@ -114,10 +114,10 @@ export const settings = {
     order: 'order',
     booking: 'booking',
     event: 'event',
-    dateStartParamKey: 'date_gte',
-    dateEndParamKey: 'date_lte',
-    notRepeatParam: 'repeat=false',
-    repeatParam: 'repeat_ne=false',
+    dateStartParamKey: 'date_gte',//greater than & equal
+    dateEndParamKey: 'date_lte',//less than & equal
+    notRepeatParam: 'repeat=false',//jednorazowe wydarzenie
+    repeatParam: 'repeat_ne=false',//cykliczne wydarzenia
   },
 };
 
