@@ -64,7 +64,8 @@ export const select = {
     hoursAmount: '.hours-amount',
     tables: '.floor-plan .table',
     form: '.booking-form',
-    ppl: '[value="1"]',
+    duration: '',
+    
   },
   nav: {
     links: '.main-nav a',

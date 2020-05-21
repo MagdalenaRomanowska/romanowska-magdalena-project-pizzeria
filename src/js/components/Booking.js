@@ -17,7 +17,7 @@ class Booking {
     const startDateParam = settings.db.dateStartParamKey + '=' + utils.dateToStr(thisBooking.datePicker.minDate);
     const endDateParam = settings.db.dateEndParamKey + '=' + utils.dateToStr(thisBooking.datePicker.maxDate);
 
-    const params = { //parametry adresów z settings.js
+    const params = { //daty - parametry adresów z settings.js
       booking: [
         startDateParam,
         endDateParam,
@@ -143,72 +143,72 @@ class Booking {
     thisBooking.dom.form = thisBooking.dom.wrapper.querySelector(select.booking.form);
   }
  
-  initWidgets(){ //we właściwościach thisBooking.peopleAmount i thisBooking.hoursAmount zapisywać nowe instancje klasy AmountWidget, którym jako argument przekazujemy odpowiednie właściwości z obiektu thisBooking.dom.
+  initWidgets(){ //nowe instancje klas.
     const thisBooking = this;
     thisBooking.peopleAmount = new AmountWidget(thisBooking.dom.peopleAmount);
     thisBooking.hoursAmount = new AmountWidget(thisBooking.dom.hoursAmount);
     thisBooking.datePicker = new DatePicker(thisBooking.dom.datePicker);
     thisBooking.hourPicker = new HourPicker(thisBooking.dom.hourPicker);
+
     thisBooking.dom.wrapper.addEventListener('updated', function(){
+      thisBooking.unSelectTable();//odznaczam wybór stolika.
       thisBooking.updateDOM();
     });
     for(let table of thisBooking.dom.tables){
       table.addEventListener('click', function(){
-        table.classList.add(classNames.booking.tableBooked);
-      });       
+        thisBooking.selectTable(table);//zaznaczam wybór stolika moją metodą.
+      });      
     }
+            
     thisBooking.dom.form.addEventListener('submit', function(){
       event.preventDefault();
       thisBooking.sendOrder();
     });
   } 
-  // sendOrder(){   //stałe, które będą nam potrzebne do wysłania zapytania do API.
-  //   const thisBooking = this;
-  //   const url = settings.db.url + '/' + settings.db.booking; //endpoint address.
 
-  // const payload = { //'ładunek' wysyłany do serwera.
-  //   //date: thisBooking.dom.datePicker,
-  //   //hour: thisBooking.dom.hourPicker,
-  //   //table: thisBooking.dom.tables,
-  //   duration: thisBooking.dom.hoursAmount,
-  //   ppl: thisBooking.dom.ppl,
-  //   //bookings: [],
-  // };
-  // console.log('payload booking:' , payload);
-  // const payload = {
-      
-  //   'date': '2020-01-01',
-  //   'hour': '18:00',
-  //   'table': 2,
-  //   'repeat': 'daily',
-  //   'duration': 2,
-  //   'ppl': 3,
-  //   'starters': [
-  //     'lemonWater'
-  //   ]
-  // };
-    
-  // for(let bookingForAPI of thisBooking.bookings){
-  //   const resultOfGetData = bookingForAPI.getData();
-  //   payload2.bookings.push(resultOfGetData);
-  // }
-    
-  //   const options = { //zawiera opcje, które skonfigurują zapytanie.
-  //     method: 'POST', //POST służy do wysyłania nowych danych do API.
-  //     headers: {
-  //       'Content-Type': 'application/json',  //ustawiamy nagłówek, by serwer wiedział, że wysyłamy dane w postaci JSONa.
-  //     },
-  //     body: JSON.stringify(payload),  //Ostatni z nagłówków to body, czyli treść którą wysyłamy. 
-  //     //Używamy tutaj metody JSON.stringify, aby przekonwertować obiekt payload na ciąg znaków w formacie JSON.
-  //   };
+  selectTable(table){//zaznaczam wybór stolika.
+    const thisBooking = this;
+    if(thisBooking.selectedTable !== undefined){
+      thisBooking.selectedTable.classList.remove(classNames.booking.tableBooked);
+    }
+    thisBooking.selectedTable = table;
+    thisBooking.selectedTable.classList.add(classNames.booking.tableBooked);
+  }
 
-  //   fetch(url, options)
-  //     .then(function(response){
-  //       return response.json();
-  //     }).then(function(parsedResponse){
-  //       console.log('parsedResponse' , parsedResponse);
-  //     });
-  // }
+  unSelectTable(){ //odznaczam wybór stolika.
+    const thisBooking = this;
+    thisBooking.selectedTable = undefined;
+  }
+
+  sendOrder(){   //stałe, które będą nam potrzebne do wysłania zapytania do API.
+    const thisBooking = this;
+    const url = settings.db.url + '/' + settings.db.booking; //endpoint address.
+
+    const payload = { //'ładunek' wysyłany do serwera.
+      date: thisBooking.datePicker.value,
+      hour: thisBooking.hourPicker.value,
+      table: thisBooking.selectedTable.getAttribute(settings.booking.tableIdAttribute), 
+      duration: thisBooking.hoursAmount.value,
+      ppl: thisBooking.peopleAmount.value,
+    };
+    console.log('payload booking:' , payload);
+    
+    const options = { //zawiera opcje, które skonfigurują zapytanie.
+      method: 'POST', //POST służy do wysyłania nowych danych do API.
+      headers: {
+        'Content-Type': 'application/json',  //ustawiamy nagłówek, by serwer wiedział, że wysyłamy dane w postaci JSONa.
+      },
+      body: JSON.stringify(payload),  //Ostatni z nagłówków to body, czyli treść którą wysyłamy. 
+      //Używamy tutaj metody JSON.stringify, aby przekonwertować obiekt payload na ciąg znaków w formacie JSON.
+    };
+
+    fetch(url, options)
+      .then(function(response){
+        return response.json();
+      }).then(function(parsedResponse){
+        console.log('parsedResponse' , parsedResponse);
+      });
+  }
 }
 
 export default Booking;

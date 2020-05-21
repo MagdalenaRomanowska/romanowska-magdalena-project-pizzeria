@@ -258,7 +258,7 @@
   "booking": [
     {
       "id": 4,
-      "date": "2019-01-01",
+      "date": "2019-01-07",
       "hour": "18:00",
       "table": 2,
       "repeat": "daily",

@@ -19,7 +19,7 @@ const app = {
       }
     }
     thisApp.activatePage(pageMatchingHash); //aktywujemy odpowiednią podstronę.
-    
+        
     for(let link of thisApp.navLinks){ //nasłuch dla klikniętego linka.
       link.addEventListener('click', function(event){
         const clickedElement = this;
