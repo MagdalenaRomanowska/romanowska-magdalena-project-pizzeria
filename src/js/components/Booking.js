@@ -19,7 +19,7 @@ class Booking {
 
     const params = { //daty - parametry adresów z settings.js
       booking: [
-        startDateParam,
+        startDateParam,  
         endDateParam,
       ],
       eventsCurrent: [
@@ -58,8 +58,9 @@ class Booking {
         ]);
       }).then(function([bookings, eventsCurrent, eventsRepeat]){ //ten zapis: potraktuj 1szy element jako tablicę i 1szy element zapisz w zmiennej bookings.
         thisBooking.parseData(bookings, eventsCurrent, eventsRepeat);
-      });
+      });    
   }
+  
 
   parseData(bookings, eventsCurrent, eventsRepeat){
     const thisBooking = this;
@@ -139,7 +140,7 @@ class Booking {
     thisBooking.dom.hoursAmount = thisBooking.dom.wrapper.querySelector(select.booking.hoursAmount); //analogicznie do peopleAmount znaleźć i zapisać element dla hoursAmount.
     thisBooking.dom.datePicker = thisBooking.dom.wrapper.querySelector(select.widgets.datePicker.wrapper);
     thisBooking.dom.hourPicker = thisBooking.dom.wrapper.querySelector(select.widgets.hourPicker.wrapper);
-    thisBooking.dom.tables = thisBooking.dom.wrapper.querySelectorAll(select.booking.tables);
+    thisBooking.dom.tables = thisBooking.dom.wrapper.querySelectorAll(select.booking.tables); //'.floor-plan .table'
     thisBooking.dom.form = thisBooking.dom.wrapper.querySelector(select.booking.form);
   }
  
@@ -151,12 +152,14 @@ class Booking {
     thisBooking.hourPicker = new HourPicker(thisBooking.dom.hourPicker);
 
     thisBooking.dom.wrapper.addEventListener('updated', function(){
-      thisBooking.unSelectTable();//odznaczam wybór stolika.
+      //thisBooking.unSelectTable();//odznaczam wybór stolika.
+      thisBooking.getData();
       thisBooking.updateDOM();
+      
     });
     for(let table of thisBooking.dom.tables){
       table.addEventListener('click', function(){
-        thisBooking.selectTable(table);//zaznaczam wybór stolika moją metodą.
+        thisBooking.selectTable(table);//zaznaczam wybór stolika.
       });      
     }
             
@@ -177,6 +180,7 @@ class Booking {
 
   unSelectTable(){ //odznaczam wybór stolika.
     const thisBooking = this;
+    thisBooking.dom.selectedTable = thisBooking.selectedTable;
     thisBooking.selectedTable = undefined;
   }
 
@@ -187,7 +191,7 @@ class Booking {
     const payload = { //'ładunek' wysyłany do serwera.
       date: thisBooking.datePicker.value,
       hour: thisBooking.hourPicker.value,
-      table: thisBooking.selectedTable.getAttribute(settings.booking.tableIdAttribute), 
+      table: parseInt(thisBooking.selectedTable.getAttribute(settings.booking.tableIdAttribute)), 
       duration: thisBooking.hoursAmount.value,
       ppl: thisBooking.peopleAmount.value,
     };
@@ -207,7 +211,9 @@ class Booking {
         return response.json();
       }).then(function(parsedResponse){
         console.log('parsedResponse' , parsedResponse);
+        thisBooking.getData();
       });
+    
   }
 }
 

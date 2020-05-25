@@ -28,7 +28,7 @@ class DatePicker extends BaseWidget{ // DP jest rozszerzeniem klasy BaseWidget.
           return (date.getDay() === 1);
         }
       ],
-      onChange: function(dateStr) { //w momencie wykrycia zmiany wartości przez plugin, chcemy ustawiać wartość właściwości thisWidget.value na dateStr z dokumentacji pluginu.
+      onChange: function(selectedDates, dateStr) { //w momencie wykrycia zmiany wartości przez plugin, chcemy ustawiać wartość właściwości thisWidget.value na dateStr z dokumentacji pluginu.
         thisWidget.value = dateStr;
       }      
     }); 

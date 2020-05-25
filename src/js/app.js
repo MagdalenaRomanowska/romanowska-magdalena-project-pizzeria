@@ -7,7 +7,7 @@ import Booking from './components/Booking.js';
 const app = {
   initPages: function () {
     const thisApp = this;
-    thisApp.pages = document.querySelector(select.containerOf.pages).children; //kontener wszystkich stron. Children to sekcje o id order i booking.
+    thisApp.pages = document.querySelector(select.containerOf.pages).children; //kontener wszystkich stron. Children to sekcje o id order, main i booking.
     thisApp.navLinks = document.querySelectorAll(select.nav.links); //znajduje wszystkie linki.
     const idFromHash = window.location.hash.replace('#/', ''); //uzyskujemy id podstrony, która ma być otwarta jako domyślna.
     //sprawdzamy każdą z podstron, czy pasuje do uzyskanego id z podstrony:
