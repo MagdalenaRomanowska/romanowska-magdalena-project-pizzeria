@@ -9,6 +9,9 @@ const app = {
     const thisApp = this;
     thisApp.pages = document.querySelector(select.containerOf.pages).children; //kontener wszystkich stron. Children to sekcje o id order, main i booking.
     thisApp.navLinks = document.querySelectorAll(select.nav.links); //znajduje wszystkie linki.
+    thisApp.navButtons = document.querySelectorAll('.btn-links');
+    thisApp.navBar = document.querySelector('.main-nav'); //pasek linków.
+
     const idFromHash = window.location.hash.replace('#/', ''); //uzyskujemy id podstrony, która ma być otwarta jako domyślna.
     //sprawdzamy każdą z podstron, czy pasuje do uzyskanego id z podstrony:
     let pageMatchingHash = thisApp.pages[0].id; //jeśli adres po # jest błędny to aktywuje się 1sza podstrona. Czyli order u nas.
@@ -21,20 +24,37 @@ const app = {
     thisApp.activatePage(pageMatchingHash); //aktywujemy odpowiednią podstronę.
         
     for(let link of thisApp.navLinks){ //nasłuch dla klikniętego linka.
-      link.addEventListener('click', function(event){
-        const clickedElement = this;
-        event.preventDefault();
-        /*get page id from href attribute */
-        const id = clickedElement.getAttribute('href').replace('#', ''); //na końcu zamieniamy # na puste znaki bo nie jest częścią id strony. Wówczas pasuje do id podstron - w html wewnątrz każdego section.
-        /*run thisApp.activatePage with that id. Aktywacja odpowiedniej podstrony. */
-        thisApp.activatePage(id);
-        /*change URL hash */
-        window.location.hash = '#/' + id; // dzięki #/ strona nie przewija się tam gdzie zaczyna się podsekcja np. order.
-      });
+      thisApp.addNavigationButtonListener(link);
+    }
+    for(let link of thisApp.navButtons){ //nasłuch dla klikniętego buttona-linka.
+      thisApp.addNavigationButtonListener(link);
     }
   },
+
+  addNavigationButtonListener(link){
+    const thisApp = this;
+    link.addEventListener('click', function(event){
+      const clickedElement = this;
+      event.preventDefault();
+      /*get page id from href attribute */
+      const id = clickedElement.getAttribute('href').replace('#', ''); //na końcu zamieniamy # na puste znaki bo nie jest częścią id strony. Wówczas pasuje do id podstron - w html wewnątrz każdego section.
+      /*run thisApp.activatePage with that id. Aktywacja odpowiedniej podstrony. */
+      thisApp.activatePage(id);
+      /*change URL hash */
+      window.location.hash = '#/' + id; // dzięki #/ strona nie przewija się tam gdzie zaczyna się podsekcja np. order.
+    });
+  },
+
   activatePage: function (pageId) { //otrzymujemy informację o id podstrony do aktywacji.
     const thisApp = this;
+    if (thisApp.navLinks !== undefined){
+      if (pageId == 'welcome'){
+        thisApp.navBar.classList.add(classNames.pages.invisible);//pasek linków-zakładek robimy niewidoczny.
+      }
+      else{
+        thisApp.navBar.classList.remove(classNames.pages.invisible);
+      }
+    }
     /* add class "active" to matching pages, remove from non-matching */
     for(let page of thisApp.pages){
       page.classList.toggle(classNames.pages.active, page.id == pageId); //przy toggle można 2 warunków użyć.
@@ -91,11 +111,6 @@ const app = {
 
   init: function () {
     const thisApp = this;
-    //console.log('*** App starting ***');
-    //console.log('thisApp:', thisApp);
-    //console.log('classNames:', classNames);
-    //console.log('settings:', settings);
-    //console.log('templates:', templates);
     thisApp.initPages();
     thisApp.initData();
     thisApp.initCart();

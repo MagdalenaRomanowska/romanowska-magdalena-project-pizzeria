@@ -90,6 +90,7 @@ export const classNames = {
   },
   pages: {
     active: 'active',
+    invisible: 'invisible',
   },
 };
 

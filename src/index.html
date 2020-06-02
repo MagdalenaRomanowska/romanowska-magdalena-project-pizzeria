@@ -15,6 +15,7 @@
     />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link rel="stylesheet" href="vendor/range-slider.min.css"/>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <link rel="stylesheet" href="css/style.css" />
   </head>
   <body>
@@ -26,7 +27,7 @@
             <h2 class="logo__subtitle">the best homemade Italian food</h2>
           </div>
           <div class="main-nav">
-            
+            <a href="#welcome">Welcome</a>
             <a href="#order">Order</a>
             <a href="#booking">Booking</a>
           </div>
@@ -81,6 +82,116 @@
     </header>
 
     <div id="pages">
+      <section id="welcome">
+        <div class="welcome-page container">
+          <div class="buttons">
+            <a class="btn-links" href="#order">
+              <div class="column">
+                <p>order online</p>
+                <p class="small-description">Delicious food delivered to your door</p>
+              </div>
+            </a>
+            <a class="btn-links" href="#booking">
+              <div class="book-a-table">book a table
+              </div>
+            </a>
+          </div>
+          <div class ="opening-hours">
+            <a class="btn-hours"><h4>opening hours:</h4>
+            <h6>tue-sun, 12pm - 12am</h6>
+            </a>
+          </div>
+          <div class="opinions">
+            <div class="row">
+              <div class="opinion-picture">                                    
+              </div>
+              <div id="opinion-descipion" class="carousel slide" data-ride="carousel" data-interval="3000">                
+                <div class="carousel-inner">
+                  <div class="carousel-item active">                                    
+                      <h5>Amazing service!</h5>
+                      <p>Some text here, some text  here, some text  here, some text  here, some text  here, some text  here, some text  here, some text  here, some text  here, some text  here. </p>
+                      <p><i> - Margaret Osborne</i></p>                    
+                  </div>
+                  <div class="carousel-item">                     
+                      <h5>Great food!</h5>
+                      <p>Other text here, other text  here, other text  here, other text  here, other text  here, other text  here, other text  here, other text  here, other text  here, other text  here. </p>
+                      <p><i> - John Smith</i></p>                    
+                  </div>
+                  <div class="carousel-item">                   
+                      <h5>Tasty meals!</h5>
+                      <p>Other text here, other text  here, other text  here, other text  here, other text  here, other text  here, other text  here, other text  here, other text  here, other text  here. </p>
+                      <p><i> - Jenny Doe</i></p>                    
+                  </div>
+                </div>
+                <ol class="carousel-indicators">
+                  <li data-target="#carouselIndicators" data-slide-to="0" class="active"></li>
+                  <li data-target="#carouselIndicators" data-slide-to="1" class=""></li>
+                  <li data-target="#carouselIndicators" data-slide-to="2" class=""></li>
+                </ol>  
+              </div>              
+                              
+            </div>   
+                       
+          </div>
+          <div class="pizza-pictures container">
+            <div class="row">
+              <div class="col-4 pizza-picture pic-1">
+                <div class="overlay">
+                </div>
+                <div class="icons">
+                  <i class="fas fa-heart"></i>
+                  <i class="fas fa-share-alt"></i>                  
+                </div>
+              </div>
+              <div class="col-4 pizza-picture pic-2">
+                <div class="overlay">
+                </div>
+                <div class="icons">
+                  <i class="fas fa-heart"></i>
+                  <i class="fas fa-share-alt"></i>                  
+                </div>
+              </div>
+              <div class="col-4 pizza-picture pic-3">
+                <div class="overlay">
+                </div>
+                <div class="icons">
+                  <i class="fas fa-heart"></i>
+                  <i class="fas fa-share-alt"></i>                  
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-4 pizza-picture pic-4">
+                <div class="overlay">
+                </div>
+                <div class="icons">
+                  <i class="fas fa-heart"></i>
+                  <i class="fas fa-share-alt"></i>                  
+                </div>
+              </div>
+              <div class="col-4 pizza-picture pic-5">
+                <div class="overlay">
+                </div>
+                <div class="icons">
+                  <i class="fas fa-heart"></i>
+                  <i class="fas fa-share-alt"></i>                  
+                </div>
+              </div>
+              <div class="col-4 pizza-picture pic-6">
+                <div class="overlay">
+                </div>
+                <div class="icons">
+                  <i class="fas fa-heart"></i>
+                  <i class="fas fa-share-alt"></i>                  
+                </div>  
+              </div>
+            </div>
+          </div>
+          <footer class="footer-link">
+            <a href="#"><u>View more on Instagram</u></a>
+          </footer>
+        </div>
+      </section>
       <section id="order">
         <div id="product-list" class="product-list container"></div>
       </section>
@@ -88,7 +199,6 @@
         <div class="booking-wrapper container"></div>
       </section>
     </div>
-
     <script id="template-booking-widget" type="text/x-handlebars-template">
       <div class="booking-widget">
         <h2 class="page__title no-spacing">
@@ -335,6 +445,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.1.0/handlebars.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="vendor/range-slider.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
     <script src="js/app.js" type="module"></script>
   </body>
 </html>

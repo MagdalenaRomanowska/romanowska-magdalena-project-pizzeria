@@ -8,6 +8,99 @@
   @include btn($color-main, $color-light, $color-main);
 }
 
+.buttons {
+  margin: 80px 0px 2px 25px;
+  display: inline-block;
+}
+
+.btn-links:first-of-type {
+  background-image: url('/images/assets/pizza-1.jpg');
+  position: relative;
+  
+  &:hover {
+    background-image: url('/images/assets/pizza-1.jpg');
+    
+    &.btn-links .small-description {
+      display: block;
+      animation-duration: 1s;
+      animation-name: slidein;
+    }
+    @keyframes slidein {
+      from {
+        padding-bottom: 0;
+      }
+
+      to {
+        padding-bottom: 20px;
+      }
+    }
+  }
+}
+
+.btn-links .column {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+}
+
+.btn-links .small-description {
+  display: none;
+  font-size: 10px;
+}
+
+.btn-links p {
+  margin-bottom: 0;
+}
+
+.btn-links {
+  @include btn($color-dark, $color-light, $color-dark);
+  @extend .h1;
+  margin: 0px 0px 0px 3px;
+  //padding: 35px 0px 35px 0px;
+  height: 130px;
+  width: 300px;
+  background-image: url('/images/assets/pizza-2.jpg');
+  background-position: center;
+  position: relative;
+  
+  &:hover {
+    text-decoration: none;
+    color: white;
+    background-image: url('/images/assets/pizza-2.jpg');
+    background-position: center;
+  }
+}
+
+.book-a-table {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.btn-hours {
+  @include btn($color-dark, $color-light, $color-dark);
+  @extend .h1;
+  background-color: $color-main;
+  margin: 5px 0 0 28px;
+  width: 605px;
+  border-color: $color-danger;
+  padding: 0px 0px 0px 0px;
+  pointer-events: none;
+}
+
+.btn-hours h4 {
+  color: $color-light;
+  margin: 30px 0 0 0;
+}
+
+.btn-hours h6 {
+  color: $color-light;
+  margin: 20px 0 25px 0;
+}
+
 .btn-quantity {
   @include btn($color-dark, $color-light, $color-dark);
   vertical-align: top;
@@ -41,6 +134,139 @@ input, select {
   }
   // CODE ADDED END
 }
+
+/*opinions-carousel*/
+
+.opinions {
+  margin: 100px 40px 0 40px;
+  width: 605px;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.opinion-picture {  
+  background-color: #3498db;
+  background-image: url('/images/assets/pizza-3.jpg');
+  background-position: center;
+  background-size: cover;
+  flex: 1;
+  border-radius: $radius;
+}
+
+.carousel {
+  flex: 2;
+  margin: 20px 0 20px 30px;
+  //background-color: lightgreen;
+}
+
+.opinion-descipion h5 {
+  @extend .h2;
+}
+
+.carousel-indicators {
+  margin: 0 0 -20px 0;
+}
+
+.carousel-indicators li {
+  height: 10px;
+  width: 10px;
+  border-radius: 50px;
+  background-color: lightgrey;
+  margin: 0 10px;
+}
+
+.carousel-indicators .active {
+  background-color: black;
+}
+
+/*pictures*/
+
+.pizza-pictures {
+  margin: 100px 0 60px 20px;
+  position: relative;
+}
+
+.pic-1 {
+  background-image: url('/images/assets/pizza-4.jpg');
+}
+
+.pic-2 {
+  background-image: url('/images/assets/pizza-5.jpg');
+}
+
+.pic-3 {
+  background-image: url('/images/assets/pizza-6.jpg');
+}
+
+.pic-4 {
+  background-image: url('/images/assets/pizza-7.jpg');
+}
+
+.pic-5 {
+  background-image: url('/images/assets/pizza-8.jpg');
+}
+
+.pic-6 {
+  background-image: url('/images/assets/pizza-9.jpg');
+}
+
+.pizza-picture {
+  background-position: center;
+  background-size: cover;
+  height: 200px;
+  border-radius: 10px;
+  border-color: white;
+  border-style: solid;
+  padding: 0px;
+}
+
+.overlay {
+  background-position: center;
+  background-size: cover;
+  height: 100%;
+  border-radius: 10px;
+  border-color: black;
+  border-style: solid;
+  background-color: black;
+  opacity: 0;
+}
+
+.pizza-picture:hover .overlay{
+  opacity: 0.3; 
+}
+
+.icons {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  opacity: 0;
+}
+
+.pizza-picture:hover .icons {
+  opacity: 1;
+  color: white;
+  font-size: 30px;
+}
+
+.pizza-picture:hover .fas:hover {
+  color: $color-main;
+}
+
+/*footer */
+
+.footer-link {
+  margin: 0 0 50px 20px;
+}
+
+.footer-link a {
+  color: $color-danger;
+}
+
+/*checkbox*/
 
 .checkbox {
   display: block;
@@ -99,5 +325,4 @@ input, select {
     }
 
   }
-
 }
