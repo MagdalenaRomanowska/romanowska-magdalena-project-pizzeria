@@ -32,7 +32,7 @@ class Booking {
         endDateParam,
       ],
     };
-    //console.log('getData params:' , params);
+    
     const urls = { //generujemy adresy do API.
       booking:        settings.db.url + '/' + settings.db.booking 
                                             + '?' + params.booking.join('&'), //łączymy wszystkie elementy z tablicy powyżej.
@@ -41,7 +41,7 @@ class Booking {
       eventsRepeat:   settings.db.url + '/' + settings.db.event 
                                             + '?' + params.eventsRepeat.join('&'),
     };
-    //console.log('urls:' , urls);
+    
     Promise.all([
       fetch(urls.booking), //łączymy się z serwerem.
       fetch(urls.eventsCurrent),
@@ -60,13 +60,14 @@ class Booking {
         thisBooking.parseData(bookings, eventsCurrent, eventsRepeat);
       });    
   }
-  
 
-  parseData(bookings, eventsCurrent, eventsRepeat){
+  parseData(bookings, eventsCurrent, eventsRepeat){//przetwarza dane z API na 'uzyteczne' dla mnie.
     const thisBooking = this;
     thisBooking.booked = {};
-    for(let item of bookings){
-      thisBooking.makeBooked(item.date, item.hour, item.duration, item.table);
+    for(let booking of bookings){
+      for(let tableNumber of booking.tables){ //tu pokazuje kilka stolików zarezerwowanych, nie jeden.
+        thisBooking.makeBooked(booking.date, booking.hour, booking.duration, tableNumber);
+      }
     }
     for(let item of eventsCurrent){
       thisBooking.makeBooked(item.date, item.hour, item.duration, item.table);
@@ -80,7 +81,6 @@ class Booking {
         }
       }
     }
-    //console.log('thisBooking.booked:' , thisBooking.booked);
     thisBooking.updateDOM();
   }
 
@@ -91,7 +91,6 @@ class Booking {
     }
     const startHour = utils.hourToNumber(hour); //zmienia np. 16:30 na 16.5.
     for(let hourBlock = startHour; hourBlock < startHour + duration; hourBlock += 0.5){ //zajętość stolików w rezerwacji. Po każdej iteracji pętli zwiększamy hourBlock o pół (godziny).
-      //console.log('loop:' , hourBlock, date, 'table:' + table);
       if(typeof thisBooking.booked[date][hourBlock] == 'undefined'){//jeśli nie istnieje rezerwacja np o godz 20:00, to tworzymy tablicę.
         thisBooking.booked[date][hourBlock] = [];
       }
@@ -152,36 +151,72 @@ class Booking {
     thisBooking.hourPicker = new HourPicker(thisBooking.dom.hourPicker);
 
     thisBooking.dom.wrapper.addEventListener('updated', function(){
-      //thisBooking.unSelectTable();//odznaczam wybór stolika.
+      thisBooking.unSelectTable();//odznaczam wybór stolika.
       thisBooking.getData();
-      thisBooking.updateDOM();
-      
+      thisBooking.updateDOM();      
     });
+
+    thisBooking.selectedTables = [];
     for(let table of thisBooking.dom.tables){
       table.addEventListener('click', function(){
         thisBooking.selectTable(table);//zaznaczam wybór stolika.
       });      
     }
-            
+    
     thisBooking.dom.form.addEventListener('submit', function(){
       event.preventDefault();
       thisBooking.sendOrder();
     });
   } 
 
+  copyTableWithoutElement(elementsArray, elementToCheck){//odznaczam stolik.
+    const tablesAfterRemovingDuplicate = [];
+    for (let arrayElement of elementsArray){
+      if(arrayElement !== elementToCheck){
+        tablesAfterRemovingDuplicate.push(arrayElement);
+      }
+    }
+    return tablesAfterRemovingDuplicate;
+  }
+
+  isTableInSelectedTables(elementsArray, elementToCheck){
+    for (let arrayElement of elementsArray){
+      if(arrayElement === elementToCheck){
+        return true; 
+      }
+    }
+    return false; //jeśli nie ma w tablicy.
+  }
+
   selectTable(table){//zaznaczam wybór stolika.
     const thisBooking = this;
-    if(thisBooking.selectedTable !== undefined){
-      thisBooking.selectedTable.classList.remove(classNames.booking.tableBooked);
-    }
     thisBooking.selectedTable = table;
-    thisBooking.selectedTable.classList.add(classNames.booking.tableBooked);
+    console.log('thisBooking.selectedTable:' , thisBooking.selectedTable);
+    const inArray = thisBooking.isTableInSelectedTables(thisBooking.selectedTables, table);
+    if(inArray === true){//jeśli kliknięty element jest już w tablicy.
+      thisBooking.selectedTables = thisBooking.copyTableWithoutElement(thisBooking.selectedTables, table);
+      table.classList.remove(classNames.booking.tableBooked);
+    } else {
+      thisBooking.selectedTables.push(table);
+      table.classList.add(classNames.booking.tableBooked);
+    } 
+    console.log('thisBooking.selectedTables after push:' , thisBooking.selectedTables);
   }
 
   unSelectTable(){ //odznaczam wybór stolika.
     const thisBooking = this;
     thisBooking.dom.selectedTable = thisBooking.selectedTable;
-    thisBooking.selectedTable = undefined;
+    thisBooking.selectedTables = [];
+  }
+
+  getSelectedTableNumbers(){//numery stolików z wielu rezerwacji do payload do API.
+    const thisBooking = this;
+    const result = [];
+    for(let selectedTable of thisBooking.selectedTables){//wyciagam liczbę stolika z obiektu.
+      const selectedTableNumber = parseInt(selectedTable.getAttribute(settings.booking.tableIdAttribute));
+      result.push(selectedTableNumber);
+    }
+    return result;
   }
 
   sendOrder(){   //stałe, które będą nam potrzebne do wysłania zapytania do API.
@@ -191,11 +226,10 @@ class Booking {
     const payload = { //'ładunek' wysyłany do serwera.
       date: thisBooking.datePicker.value,
       hour: thisBooking.hourPicker.value,
-      table: parseInt(thisBooking.selectedTable.getAttribute(settings.booking.tableIdAttribute)), 
+      tables: thisBooking.getSelectedTableNumbers(),
       duration: thisBooking.hoursAmount.value,
       ppl: thisBooking.peopleAmount.value,
     };
-    console.log('payload booking:' , payload);
     
     const options = { //zawiera opcje, które skonfigurują zapytanie.
       method: 'POST', //POST służy do wysyłania nowych danych do API.

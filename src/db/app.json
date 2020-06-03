@@ -258,12 +258,21 @@
   "booking": [
     {
       "id": 4,
-      "date": "2020-05-25",
+      "date": "2020-06-03",
       "hour": "22:00",
-      "table": 2,
+      "tables": [1,2,3],
       "duration": 1,
       "ppl": 3,
       "starters": ["lemonWater"]
-    }    
+    },   
+    {
+      "id": 5,
+      "date": "2020-06-03",
+      "hour": "23:00",
+      "tables": [1,2],
+      "duration": 1,
+      "ppl": 3,
+      "starters": ["lemonWater"]
+    }  
   ]
 }
