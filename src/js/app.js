@@ -12,7 +12,8 @@ const app = {
     thisApp.navButtons = document.querySelectorAll('.btn-links');
     thisApp.navBar = document.querySelector('.main-nav'); //pasek linków.
 
-    const idFromHash = window.location.hash.replace('#/', ''); //uzyskujemy id podstrony, która ma być otwarta jako domyślna.
+    const idFromHash = window.location.hash.replace('#/', ''); 
+    //uzyskujemy id podstrony, która ma być otwarta jako domyślna.
     //sprawdzamy każdą z podstron, czy pasuje do uzyskanego id z podstrony:
     let pageMatchingHash = thisApp.pages[0].id; //jeśli adres po # jest błędny to aktywuje się 1sza podstrona. Czyli order u nas.
     for(let page of thisApp.pages){//jeżeli pasuje do id to ta zostanie otwarta.
